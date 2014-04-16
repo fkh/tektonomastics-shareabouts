@@ -1,11 +1,11 @@
 # Settings for the app
 app:
   # HTML Title
-  title: Shareabouts
+  title: Tektonomastics
   # Header name
-  name: Shareabouts
+  name: Tektonomastics, the building names project
   # Meta description that will show up in Google search results
-  meta_description: _(Shareabouts is a mapping tool to gather crowd sourced public input. Use it to collect suggested locations and comments in a social, engaging process.)
+  meta_description: _(Tektonomatics is mapping the named buildings of NYC and beyond. To qualify for inclusion on the map, buildings must be residential, and visibly named, ideally with the name carved into the frieze on the entablature above the doorway.)
 
   # When the map loads, existing places will be loaded in chunks. By default,
   # the size of the chunks will be a reasonable default dictated by the API
@@ -18,33 +18,22 @@ map:
   geolocation_onload: false
   options:
     center:
-      lat: 39.9523524
-      lng: -75.1636075
-    zoom: 14
+      lat: 40.66803632965453
+      lng: -73.9534447202459
+    zoom: 16
     minZoom: 10
-    maxZoom: 17
+    maxZoom: 19
   layers:
     - url: http://{s}.tiles.mapbox.com/v3/openplans.map-dmar86ym/{z}/{x}/{y}.png
       attribution: '&copy; OpenStreetMap contributors, CC-BY-SA. <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
-    - url: /static/data/philadelphia.geojson
-      type: json
-      rules:
-        - condition: 'true'
-          style:
-            color: "#444"
-            opacity: 0.6
-            fillOpacity: 0.1
-            weight: 1
 
 # The keys show up in the dropdown list when you are adding a new place
 # The values map the place type to map icons (defined below).
 place_types:
-  landmark:
-    label: _(Landmark)
+  building:
+    label: _(Named building)
     rules:
-      - condition: '"{{location_type}}" === "landmark"'
-        # Display landmarks as icons
-
+      - condition: '"{{location_type}}" === "building"'
         icon:
           iconUrl: /static/css/images/markers/dot-0d85e9.png
           iconSize: [17, 18]
@@ -56,93 +45,6 @@ place_types:
           shadowSize: [41, 41]
           iconAnchor: [12, 41]
 
-        # style:
-        #   color: '#0d85e9'
-        #   radius: 8
-        #   weight: 1
-        #   opacity: 0.9
-        #   fillOpacity: 0.4
-        # focus_style:
-        #   color: '#0d85e9'
-        #   radius: 16
-        #   weight: 1
-        #   opacity: 0.9
-        #   fillOpacity: 0.4
-
-  park:
-    label: _(Park)
-    rules:
-      - condition: '"{{location_type}}" === "park"'
-        # Show parks that are points as icons...
-
-        icon:
-          iconUrl: /static/css/images/markers/dot-4bbd45.png
-          iconSize: [17, 18]
-          iconAnchor: [9, 9]
-        focus_icon:
-          iconUrl: /static/css/images/markers/marker-4bbd45.png
-          shadowUrl: /static/css/images/marker-shadow.png
-          iconSize: [25, 41]
-          shadowSize: [41, 41]
-          iconAnchor: [12, 41]
-
-        # ...and parks that are polygons as shapes.
-
-        style:
-          color: '#4bbd45'
-          radius: 8
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
-        focus_style:
-          color: '#4bbd45'
-          radius: 16
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
-
-  school:
-    label: _(School)
-    rules:
-      - condition: '"{{location_type}}" === "school" && {{submission_sets.comments.length}} > 0'
-        # Display schools as circles
-
-        # icon:
-        #   iconUrl: /static/css/images/markers/dot-f95016.png
-        #   iconSize: [17, 18]
-        #   iconAnchor: [9, 9]
-        # focus_icon:
-        #   iconUrl: /static/css/images/markers/marker-f95016.png
-        #   shadowUrl: /static/css/images/marker-shadow.png
-        #   iconSize: [25, 41]
-        #   shadowSize: [41, 41]
-        #   iconAnchor: [12, 41]
-
-        style:
-          color: '#f95016'
-          radius: 8
-          weight: 4
-          opacity: 0.9
-          fillOpacity: 0.4
-        focus_style:
-          color: '#f95016'
-          radius: 16
-          weight: 4
-          opacity: 0.9
-          fillOpacity: 0.4
-      - condition: '"{{location_type}}" === "school"'
-        style:
-          color: '#f95016'
-          radius: 8
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
-        focus_style:
-          color: '#f95016'
-          radius: 16
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
 
 
 activity:
@@ -153,15 +55,15 @@ activity:
 
 place:
   adding_supported: true
-  add_button_label: _(Add a Place)
+  add_button_label: _(Add a building)
   # Labels for the buttons that toggle the map and list views
-  show_list_button_label: _(List All Places)
-  show_map_button_label: _(Show the Map)
+  show_list_button_label: _(Inventory)
+  show_map_button_label: _(Map)
   action_text: _(added)
-  title: _(Tell us more...)
-  action_text: _(created)
+  title: _(Add building details)
+  action_text: _(added)
   anonymous_name: _(Someone)
-  submit_button_label: _(Submit)
+  submit_button_label: _(Add to map)
   items:
     - prompt: _(Your Name)
       type: text
@@ -174,37 +76,45 @@ place:
           value: 30
     - prompt: _(Your Email)
       type: text
-      name: private-submitter_email
-      optional: true
+      name: private-email
       attrs:
         - key: placeholder
           value: _(Email address)
         - key: size
           value: 30
-    - prompt: _(Location Name)
+        - key: required
+    - prompt: _(Building name)
       type: text
       name: name
       attrs:
         - key: placeholder
-          value: _(Location Name)
+          value: _(Building Name)
         - key: size
           value: 30
         - key: required
-    - prompt: _(Location Type)
-      type: select
-      options:
-        - label: _(Choose One)
-          value: ''
-        - label: _(Landmark)
-          value: landmark
-        - label: _(Park)
-          value: park
-        - label: _(School)
-          value: school
+    - prompt: _(Street address)
+      type: text
+      name: address
+      attrs:
+        - key: placeholder
+          value: _(123 Something Street)
+        - key: size
+          value: 30
+        - key: required
+    - prompt: _(Town and state)
+      type: text
+      name: address
+      attrs:
+        - key: placeholder
+          value: _(Brooklyn, NY)
+        - key: size
+          value: 30
+    - type: hidden
       name: location_type
       attrs:
-        - key: required
-    - prompt: _(Description)
+        - key: value
+          value: building
+    - prompt: _(Optional description)
       type: textarea
       name: description
       optional: true
@@ -252,32 +162,6 @@ support:
   response_plural_name: _(supports)
   action_text: supported
   anonymous_name: _(Someone)
-
-pages:
-  - title: _(About)
-    slug: about
-    name: overview
-    # start_page: true
-
-  - title: _(Why Shareabouts?)
-    slug: why
-    url: /static/pages/why.html
-
-  - title: _(Features)
-    slug: features
-    url: /static/pages/features.html
-
-  - title: _(Links)
-    pages:
-      - title: _(Documentation)
-        external: true
-        url: https://github.com/openplans/shareabouts/tree/master/doc
-      - title: _(Issues)
-        external: true
-        url: https://github.com/openplans/shareabouts/issues
-      - title: _(GitHub)
-        external: true
-        url: https://github.com/openplans/shareabouts
 
 notifications:
   on_new_place: true
